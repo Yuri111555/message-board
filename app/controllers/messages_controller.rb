@@ -1,10 +1,11 @@
 class MessagesController < ApplicationController
+  before_action :set_message, only: [:show, :edit, :update, :destroy]
+  
   def index
     @messages = Message.all
   end
   
   def show
-    @messages = Message.find(params[:id])
   end
   
   def new
@@ -25,7 +26,6 @@ class MessagesController < ApplicationController
   end
   
   def edit
-    @message = Message.find(params[:id])
   end
   
   def update
@@ -42,7 +42,6 @@ class MessagesController < ApplicationController
   end
   
   def destroy
-    @message = Messsage.find(params[:id])
     @message.destroy
     
     flash[:success] = 'Messageは正常に削除されました'
@@ -55,6 +54,11 @@ end
 private
 
 # Strong Parameter
+
+def set_message
+  @message = Message.find(params[:id])
+end
+
 def message_params
   params.require(:message).permit(:content)
 end  
